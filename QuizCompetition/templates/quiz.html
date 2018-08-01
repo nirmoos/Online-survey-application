@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="utf-8">
+	<title>quiz-competition</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../stylesheets/quiz.css">
+</head>
+<body>
+	<div class="welcome-page">"We Welcomes You!!!"</div>
+	<div class="ques-ans-block">
+		<div class="question-block"></div>
+		<hr class="devider">
+		<div class="answer-block"></div>
+	</div>
+	<form  onsubmit="return validate (event)" class="name-form" name="name-form">
+		<input type="text" name="name" class="input-name" placeholder="Your Name..." pattern="[a-zA-Z]{5}([\s]?[a-zA-Z]+)*">
+		<input type="submit" value="SUBMIT">
+	</form>
+	<div class="review-page">
+		<form name="review-form" class="review-form">
+			<header>Name:<span class="user-name"></span></header>
+		</form>
+	</div>
+</body>
+<script type="text/javascript" src="../javascripts/quiz.js"></script>
+</html>
