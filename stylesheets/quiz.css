@@ -73,3 +73,11 @@ body {
 	width: 200px;
 	margin-top: 50px;
 }
+.submit-this {
+	width: 40%;
+	margin-top: 20px;
+}
+.name-form input {
+	width: 100%;
+	margin: 10px 5px;
+}
