@@ -157,3 +157,27 @@ hr.devider {
      margin: 26px 0 30px 20px;
      border-radius: 5px;
 }
+
+/* Timer */
+.quiz-timer {
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+}
+.quiz-timer kbd {
+    margin: 0 2px;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #00cccc;
+    color: white;
+}
+
+/* Modal customization */
+.myModalHeader, .myModalButton {
+    background-color: #00cccc;
+    color: white;
+    font-weight: bold;
+}
+.myModalBody {
+    color: #00cccc;
+}

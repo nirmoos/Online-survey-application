@@ -219,11 +219,13 @@ class Display {
 	displaySureButton () {
 		let button = $(".sureButtonContainer > button");
 		button.click(function () {
+			clearTimeout(myTimer);
 			if (uStorage.allDetails.length+1 == questions.length)
 				uStorage.insertDetail(createObj(questions.length-1, false), questions.length-1);
 			$(".content-header").hide();
 			$(".main").hide();
 			$(".sureButtonContainer").hide();
+			$(".quiz-timer").hide();
 			$(".user-form-container").show();
 		});
 	}
@@ -281,7 +283,23 @@ class UserStorage {
 
 }
 
-class UserLogin {
+/**
+ *This class is for validation of user details.
+ *
+ *The valdiateName() and validateEmail() are attached to the corresponding
+ *input's blur event.
+ *The valdiateAll() again valdiates the name and email ones the user clicks
+ *on the submit button.
+ *If it returns to be true, then user would be taken to the resul page.
+ *
+ *@param name- Stores the name of the user if it validates to be true.
+ *@param email- Stores the email of the user if it validates to be true.
+ *@param namePattern- Regular Expression for name.
+ *@param emailPattern- Regular Expression for email.
+ *
+ *
+ */
+class UserValidation {
 	constructor() {
 		this.name = "";
 		this.email = "";
@@ -408,4 +426,42 @@ var questions = [];
 var display = new Display();
 var uStorage = new UserStorage();
 var table = new Table();
-var user = new UserLogin();
+var user = new UserValidation();
+
+
+/**
+ *A function to show timer of 30 seconds.
+ *The Quiz question page will automatically closed after the times up.
+ *
+ *@arg i- Corresponds to minutes
+ *@arg j- Corresponds to minutes
+ *@arg m- Corresponds to seconds
+ *@arg n- Corresponds to seconds
+ *
+ */
+var updateTimer = function (i=0, j=0, m=0, n=9) {
+    myTimer = setTimeout(function () {
+        $(".timer-d-1").text(i);
+        $(".timer-d-2").text(j);
+        $(".timer-d-3").text(m);
+        $(".timer-d-4").text(n);
+        n = n == 0 ? (--m, 10) : n;
+        if (m == -1 && n == 10) {
+			for (let x=uStorage.allDetails.length; x<questions.length; x++) {
+				display.displayQuestion(x);
+				uStorage.insertDetail(createObj(x, false), x);
+			}
+			$("#timesupModal").modal('show');
+			$(".content-header").hide();
+			$(".main").hide();
+			$(".sureButtonContainer").hide();
+			$(".quiz-timer").hide();
+			$(".user-form-container").show();
+
+            return;
+        }
+        updateTimer(i, j, m, --n);
+    }, 1000);
+}
+
+updateTimer();

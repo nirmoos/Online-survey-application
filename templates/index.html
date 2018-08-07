@@ -2,94 +2,127 @@
 <html lang="en-US">
 <head>
      <meta charset="utf-8">
-     <title>Quiz-Competestion</title>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <title>Quiz-Competition</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
      <link type="text/css" rel="stylesheet" href="../stylesheets/index.css">
 </head>
 <body class="container-fluid">
 
      <!-- Page header -->
-     <header class="body-header jumbotron">
-          <h1>SURVEY 2018-19</h1>
-     </header>
+    <header class="body-header jumbotron">
+        <h1>SURVEY 2018-19</h1>
+    </header>   <!-- Body header -->
 
-     <!-- Remaining question indicator
+    <!-- Remaining question indicator
 
-          It will updated after covering all questions to indicate about
-          the 'YES I AM SURE' button.
-          It will disappear once the 'YES I AM SURE' button is clicked.
+        It will updated after covering all questions to indicate about
+        the 'YES I AM SURE' button.
+        It will disappear once the 'YES I AM SURE' button is clicked.
      -->
      <p class="content-header text-muted">
-          <kbd class="rem-ques-nos">1</kbd> question remaining!!!</p>
+        <kbd class="rem-ques-nos">1</kbd> question remaining!!!</p>
 
-     <!-- Main container
+        <!-- Main container
 
-          It contains the Question form and Status table.
+        It contains the Question form and Status table.
 
-          It will disappear once the 'YES I AM SURE' button is clicked.
+        It will disappear once the 'YES I AM SURE' button is clicked.
+    -->
+    <div class="main">
+
+        <!-- Question form -->
+        <div class="content-block">
+            <div class="question-block"><h2>
+                <kbd class="question-no">1</kbd>
+                </h2>
+            </div>
+            <hr class="devider">
+
+            <!-- Wrapper only for aligning center -->
+            <div class="answer-block-wrapper">
+                <div class="answer-block"></div>
+            </div>
+            <hr class="devider">
+            <div class="button-block">
+                <button class='prev-button'>BACK</button>
+                <button class='submit-button'>SUBMIT</button>
+                <button class='next-button'>NEXT</button>
+            </div>
+        </div>   <!-- Content Block -->
+
+        <!-- Status table -->
+        <div class="status-block">
+            <table class="status-table table table-striped table-light table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Qno</th>
+                        <th>Answer</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>   <!-- Status block -->
+    </div>   <!-- Main -->
+
+    <!-- Contains only 'YES I AM SURE' button -->
+    <div class="sureButtonContainer">
+
+    <!-- Yes I am sure button
+
+        It only shows after covering all questions.
+        It will disappear once this button is clicked.
+    -->
+        <button>YES I AM COMPLETE</button>
+    </div>   <!-- Sure button container -->
+
+    <!-- Form for Personal details
+
+        It only shows on 'YES I AM SURE' button click.
+    -->
+    <div class="user-form-container">
+        <form  onsubmit="return user.validateAll(event)" class="user-form" name="user-form">
+            <input type="text" name="name" class="user-name" placeholder="Your Name..." onblur="user.validateName()">
+            <p class="uname-msg"></p>
+            <input type="text" name="email" class="user-email" placeholder="Email..." onblur="user.validateEmail()">
+            <p class="uemail-msg"></p>
+            <input type="submit" value="SUBMIT" class="user-submit">
+        </form>
+    </div>   <!-- User form container -->
+    <!-- Timer for Quiz duration.
+
+        The user will be taken to the next page even if he didnt complete the quiz.
+        The uncovered questions will be marked as "Not answered".
      -->
-     <div class="main">
+    <div class="quiz-timer">
+        <kbd class="timer-d-1">0</kbd>
+        <kbd class="timer-d-2">0</kbd>
+        <label class="timer-d">:</label>
+        <kbd class="timer-d-3">1</kbd>
+        <kbd class="timer-d-4">0</kbd>
+    </div>
 
-          <!-- Question form -->
-          <div class="content-block">
-               <div class="question-block"><h2>
-                    <kbd class="question-no">1</kbd>
-               </h2></div>
-               <hr class="devider">
-
-               <!-- Wrapper only for aligning center -->
-               <div class="answer-block-wrapper">
-                    <div class="answer-block"></div>
-               </div>
-               <hr class="devider">
-               <div class="button-block">
-                    <button class='prev-button'>BACK</button>
-                    <button class='submit-button'>SUBMIT</button>
-                    <button class='next-button'>NEXT</button>
-               </div>
-          </div>
-
-          <!-- Status table -->
-          <div class="status-block">
-               <table class="status-table table table-striped table-light table-bordered table-hover">
-                    <thead>
-                         <tr>
-                              <th>Qno</th>
-                              <th>Answer</th>
-                              <th>Edit</th>
-                         </tr>
-                    </thead>
-                    <tbody></tbody>
-               </table>
-          </div>
-     </div>
-
-     <!-- Contains only 'YES I AM SURE' button -->
-     <div class="sureButtonContainer">
-
-          <!-- Yes I am sure button
-
-               It only shows after covering all questions.
-               It will disappear once this button is clicked.
-          -->
-          <button>YES I AM COMPLETE</button>
-     </div>
-
-     <!-- Form for Personal details
-
-          It only shows on 'YES I AM SURE' button click.
-     -->
-     <div class="user-form-container">
-          <form  onsubmit="return user.validateAll(event)" class="user-form" name="user-form">
-               <input type="text" name="name" class="user-name" placeholder="Your Name..." onblur="user.validateName()">
-               <p class="uname-msg"></p>
-               <input type="text" name="email" class="user-email" placeholder="Email..." onblur="user.validateEmail()">
-               <p class="uemail-msg"></p>
-               <input type="submit" value="SUBMIT" class="user-submit">
-          </form>
-     <div>
+    <!-- Modal -->
+    <div class="modal" id="timesupModal" style="display: none">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header myModalHeader">
+        <h5 class="modal-title">Times up!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body myModalBody">
+        <p>If you are not covered all questions, then those will be saved as "Not answered".</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary myModalButton" data-dismiss="modal">Close</button>
+    </div>
+    </div>
+    </div>
+    </div>  <!-- Modal ends here -->
 
 </body>
 <script src="../javascripts/index.js"></script>
