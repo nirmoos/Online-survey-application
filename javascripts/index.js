@@ -385,12 +385,9 @@ function createObj (index, isSubmitted) {
 //If all covered, then indicate about the "Yes I am completed" button.
 function updateHeader() {
 	if (questions.length-2 < uStorage.allDetails.length) {
-		$(".content-header").text("You have coverd all questions. Click on the 'Yes I am completed' button to finish");
-		setTimeout(function(){
-			$(".content-header").hide();
-			$(".main").css({"margin-top": "40px",});
-			$(".sureButtonContainer").show();
-		}, 1500);
+		$(".content-header").hide();
+		$(".main").css({"margin-top": "85px",});
+		$(".sureButtonContainer").show();
 	}
 	else
 		$(".rem-ques-nos").text(questions.length-uStorage.allDetails.length-1);
@@ -417,10 +414,15 @@ $.ajax({
 	    		questions.push(q);
 	    	}
 		display.displayQuestion(0);
-		$(".main").show();
+		updateHeader();
+		$(".content-header").slideDown(1000);
+		$(".content-block").slideDown();
+		$(".status-block").slideDown();
+		$(".quiz-timer").slideDown();
     }
 });
 
+//This vaiable is a container for all question objects.
 var questions = [];
 
 var display = new Display();
@@ -439,7 +441,7 @@ var user = new UserValidation();
  *@arg n- Corresponds to seconds
  *
  */
-var updateTimer = function (i=0, j=0, m=0, n=9) {
+var updateTimer = function (i=0, j=0, m=2, n=9) {
     myTimer = setTimeout(function () {
         $(".timer-d-1").text(i);
         $(".timer-d-2").text(j);
@@ -451,11 +453,11 @@ var updateTimer = function (i=0, j=0, m=0, n=9) {
 				display.displayQuestion(x);
 				uStorage.insertDetail(createObj(x, false), x);
 			}
-			$("#timesupModal").modal('show');
+			$(".quiz-timer").hide();
 			$(".content-header").hide();
 			$(".main").hide();
 			$(".sureButtonContainer").hide();
-			$(".quiz-timer").hide();
+			$("#timesupModal").modal('show');
 			$(".user-form-container").show();
 
             return;

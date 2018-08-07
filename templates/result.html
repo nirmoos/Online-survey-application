@@ -3,33 +3,49 @@
 <head>
      <meta charset="utf-8">
      <title>Quiz-result</title>
+     <!-- jQuery library CDN -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <!-- Bootstrap CDN -->
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+     <!-- Chart.js CDN -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
      <link type="text/css" rel="stylesheet" href="../stylesheets/result.css">
 </head>
 <body class="container-fluid">
 
-     <!-- Page header -->
-     <header class="body-header jumbotron">
-          <h1>SURVEY 2018-19</h1>
-     </header>
+    <!-- Page header -->
+    <header class="body-header jumbotron">
+        <h1>SURVEY 2018-19</h1>
+    </header>   <!-- body header -->
 
-     <!-- Result table -->
-     <div class="result-block">
-          <table class="result-table table table-striped table-light table-bordered table-hover">
-               <thead>
-                    <tr>
-                         <th>Qno</th>
-                         <th>Title</th>
-                         <th>Your answer</th>
-                         <th>Is correct</th>
-                         <th>Score</th>
-                    </tr>
-               </thead>
-               <tbody></tbody>
-          </table>
-     </div>
+    <!-- Result table -->
+    <div class="result-block">
+        <table class="result-table table table-striped table-light table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Qno</th>
+                    <th>Title</th>
+                    <th>Your answer</th>
+                    <th>Is correct</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>   <!-- result block -->
 
+    <!-- The canvases are initially hidden. When the user click on this
+         button, the table will be replaced with the canvases.
+    -->
+    <div class="button-container">
+         <button class="button-for-canvas">SHOW STATISTICS</button>
+    </div>   <!-- button container -->
+
+    <!-- Canvases for showing detailed statistics -->
+    <div class="canvas-wrapper">
+         <canvas id="myChart1"></canvas>
+         <canvas id="myChart2"></canvas>
+    </div>   <!-- canvas wrapper -->
 </body>
 <script src="../javascripts/result.js"></script>
 </html>

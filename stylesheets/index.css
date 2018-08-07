@@ -10,6 +10,7 @@
 
 /* Remaining questions indicator */
 .content-header {
+     display: none;
      text-align: center;
      margin: 0 0 20px;
      font-size: 30px;
@@ -30,6 +31,7 @@
 }
 /* Question form */
 .content-block {
+     display: none;
      width: 40%;
 }
 .question-block {
@@ -78,6 +80,7 @@ hr.devider {
 }
 /* Status table */
 .status-block {
+     display: none;
      width: 30%;
 }
 .status-table {
@@ -102,7 +105,7 @@ hr.devider {
 .sureButtonContainer {
      display: none;
      text-align: center;
-     margin-top: 100px;
+     margin-top: 50px;
 }
 
 /* Form for getting user-name and user-email */
@@ -160,9 +163,10 @@ hr.devider {
 
 /* Timer */
 .quiz-timer {
+    display: none;
     position: absolute;
-    bottom: 50px;
-    right: 30px;
+    top: 150px;
+    left: 125px;
 }
 .quiz-timer kbd {
     margin: 0 2px;

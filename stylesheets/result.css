@@ -10,8 +10,8 @@
 
 /* Result table */
 .result-block {
-     width: 80%;
-     margin: 50px auto;
+     width: 100%;
+     margin: 20px auto;
 }
 .result-table {
      border-radius: 9px;
@@ -23,4 +23,29 @@
 }
 .result-block tbody {
      color: #00cccc;
+}
+
+/* Button for displaying canvas */
+.button-container {
+    text-align: center;
+}
+.button-for-canvas {
+    background-color: #00cccc;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 20px;
+}
+.button-for-canvas:hover {
+    cursor: pointer;
+}
+/* Canvas wrapper */
+.canvas-wrapper {
+    display: none;
+    justify-content: space-around;
+}
+
+#myChart1, #myChart2 {
+    max-width: 500px;
+    max-height: 500px;
 }
