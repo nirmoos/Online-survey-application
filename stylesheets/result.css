@@ -1,48 +1,26 @@
+/* Page header */
+.body-header {
+    text-align: center;
+    background-color: #00cccc;
+    color: white;
+    font-weight: bold;
+    padding: 30px;
+    margin: 10px 0 20px;
+}
 
-table {
-	border-collapse: collapse;
-	table-layout: fixed;
-	margin: auto;
-	text-align: center;
+/* Result table */
+.result-block {
+     width: 80%;
+     margin: 50px auto;
 }
-tr:nth-child(even) td {
-	background-color: #cccccc;
-	color: #003300;
+.result-table {
+     border-radius: 9px;
+     border: 1px solid #00cccc;
 }
-tr:nth-child(odd) td {
-	background-color: #b3ffd9;
-	color: #990000;
+.result-table thead {
+     color: white;
+     background-color: #00cccc;
 }
-table thead {
-	font-family: Helvetica, sans-serif;
-	background-color: #ff9999;
-	color: #004d00;
-	height: 30px;
-	font-size: 18px;
-}
-td {
-	border: 1px solid red;
-	height: 25px;
-}
-td:nth-child(2), td:nth-child(3) {
-	text-align: left;
-	padding-left: 5px;
-}
-td:nth-child(3) {
-	text-align: left;
-	padding: 0 5px;
-}
-th {
-	border: 1px solid black;
-}
-header {
-	text-align: center;
-	color: red;
-	text-decoration: underline;
-	font-size: 30px;
-	margin: 20px 0 30px;
-}
-.close-window {
-	display: block;
-	margin: 30px auto;
+.result-block tbody {
+     color: #00cccc;
 }

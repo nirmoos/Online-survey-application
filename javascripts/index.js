@@ -1,41 +1,3 @@
-var email = /\w+@[a-z]{3,7}\.\w+/
-var password = /^[a-zA-Z]+([0-9]+[a-zA-Z]*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+|[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+[a-zA-Z]*[0-9]+)[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/
-
-$(".email").blur(function () {
-	var errorMsg = $(".login-form").find(".uname-msg");
-	if (errorMsg.length == 0) {
-		var errorMsg = $("<p></p>");
-		errorMsg.addClass("uname-msg");
-		$(".email").after(errorMsg);
-	}
-	if (email.test($(".email").val()))
-		errorMsg.html('<i class="fas fa-check"></i>');
-	else
-		errorMsg.text('should be in the form: example@qburst.com');
-});
-$(".password").blur(function () {
-	var errorMsg = $(".login-form").find(".pword-msg");
-	if (errorMsg.length == 0) {
-		var errorMsg = $("<p></p>");
-		errorMsg.addClass("pword-msg");
-		$(".password").after(errorMsg);
-	}
-	if($(".password").val().length >= 7) {
-		if (password.test($(".password").val()))
-			errorMsg.html('<i class="fas fa-check"></i>');
-		else
-			errorMsg.text('should start with a letter and contain atleast one letter and one special character.');
-	}
-	else
-		errorMsg.text('should be atleast 7 characters long.');
-});
-
-function validateLogin (event) {
-	event.preventDefault();
-	$(".login-form-container").hide();
-	$(".main").css("display", "flex");
-	updateHeader();
-}
 
 /**
  *Answer is a class that represents an answer.
@@ -108,51 +70,6 @@ class Question {
 }
 
 /**
- *Stores all the answered questions.
- *
- *It also stores the allDetails array into local storage after the User
- *is clicked on the "Yes i completed" button.
- *
- *@param allDetails- Array storing details of all User covered Questions.
- *
- */
-class UserStorage {
-
-	constructor () { this.allDetails = []; }
-
-	/**
-	 *For inserting the details of User answered Questions.
-	 *If it is a previously answered question, then it just updates it.
-	 *
-	 *After insertion, it calls for status table updation.
-	 *
-	 *@arg obj- Object represents User covered Question.
-	 *@arg index- Index of the page that triggered the event.
-	 *
-	 */
-	insertDetail (obj, index) {
-		if (index+1 > this.allDetails.length) {
-			this.allDetails.push(obj);
-			table.createRow(obj, index);
-		}
-		else {
-			this.allDetails.splice(index, 1, obj);
-			table.updateRow(obj, index);
-		}
-	}
-
-	//Save array to local storage on "Yes i am completed" button.
-	saveToStorage () {
-		localStorage.setItem("Questionare", JSON.stringify(this.allDetails));
-	}
-
-	allDetails () { return allDetails; }
-
-	getUserAnswer (index) { return this.allDetails[index]["answer"]; }
-
-}
-
-/**
  *This class correspnds to the status table which is showed in the right side
  *of the Question.
  *
@@ -176,7 +93,7 @@ class Table {
 	 *
 	 */
 	createRow (obj, index) {
-		let tr = $("<tr></tr>").append($("<td></td>").text(index+1));
+		let tr = $("<tr data-toggle='tooltip' data-placement='top' title='"+ questions[index].getQuestion() +"'></tr>").append($("<td></td>").text(index+1));
 		let td = $("<td></td>").text(obj["answer"]);
 		this.changeAnswerColor(obj["answer"], td);
 		tr.append(td);
@@ -211,7 +128,7 @@ class Table {
 	 *
 	 */
 	changeAnswerColor (answer, td) {
-		answer == "Not answered" ? td.css({"color": "red"}) : td.css({"color": "green"});
+		answer == "Not answered" ? td.css({"color": "red"}) : td.css({"color": "#00cccc"});
 	}
 }
 
@@ -240,14 +157,16 @@ class Display {
 		let qn = questions[no];
 		let aws = qn.getAnswers();
 
-		$(".question-block").text(no+1 + '. ' +qn.getQuestion());
+		let quesNo = $("<kbd class='question-no'></kbd>").text(no+1);
+		$(".question-block").text(qn.getQuestion());
+		$(".question-block").prepend(quesNo);
 
 		let aBlock = $(".answer-block").empty();
-
+		let i = 0;
 		for (let ans of aws) {
-			let div = $("<div class='single-answer'></div>");
-			let input = $("<input type='radio' name='answer' value='" + ans + "' />");
-			let label = $("<label></label>").text(ans);
+			let div = $("<div class='custom-control custom-radio single-answer'></div>");
+			let input = $("<input type='radio' id='customRadio" + ++i +"' name='answer' value='" +ans+ "' class='custom-control-input' />");
+			let label = $("<label class='custom-control-label' for='customRadio"+ i +"'></label>").text(ans);
 
 			if (no < uStorage.allDetails.length) {
 				if (ans == uStorage.getUserAnswer(no))
@@ -258,16 +177,16 @@ class Display {
 		}
 
 		//Creation of the  Previous button.
-		let pButton = $("<button class='prev-Button'></button>").text("Back");
+		let pButton = $(".prev-button").off("click");
 		pButton.click(function () {
 			if (uStorage.allDetails.length+1 == questions.length)
 				uStorage.insertDetail(createObj(no, false), no);
 			display.displayQuestion(no-1);
 		});
-		if (no == 0) pButton.attr("disabled", "disabled");					//The button is disabled for the first page.
+		no == 0 ? pButton.attr("disabled", "disabled") : pButton.removeAttr("disabled");					//The button is disabled for the first page.
 
 		//Creation of the Submit button.
-		let sButton = $("<button class='submit-button'></button>").text("Submit");
+		let sButton = $(".submit-button").off("click");
 		sButton.click(function () {
 			uStorage.insertDetail(createObj(no, true), no);
 			display.displayQuestion(no+1 > questions.length ? no: no+1);
@@ -275,68 +194,19 @@ class Display {
 		});
 
 		//Creation of the Next button.
-		let nButton = $("<button class='next-button'></button>").text("Next");
+		let nButton = $(".next-button").off("click");
 		nButton.click(function () {
 			uStorage.insertDetail(createObj(no, false), no);
 			display.displayQuestion(no+1);
 			updateHeader();
 		});
 
-		aBlock.append(pButton, sButton, nButton);
-
 		if (no+1 == questions.length) {
 			nButton.attr("disabled", "disabled");							//The button is disabled for the last page.
 			this.displaySureButton();
-			updateHeader();
-			//
 		}
-
-		//The status table is displayed only after the submission of or leaving the first Question.
-		if (no == 1 || (no == 0 && uStorage.allDetails.length != 0))
-			$(".current-status").css({'visibility': 'visible'});
-	}
-
-	/**
-	 *It displays the review page in which the user can see all his answers.
-	 *Even though he cannot have the permission for further editing.
-	 *
-	 *@param email- Email-id of the user.
-	 *@param dataSet- An array contains all the Answers the user is submitted.
-	 *
-	 */
-	displayReviewForm (name) {
-		$(".review-form").empty();
-
-		$(".user-name").text(name);
-
-		let dataSet = uStorage.allDetails;
-		let reviewForm = $(".review-form");
-
-		for (let obj of dataSet) {
-			let div = $("<div class='user-test-details'></div>");
-			let input = $("<input type='text' value='"+obj["answer"]+"' />");
-			let label = $("<label></label>").text(obj["no"]+ " " +obj["title"]);
-
-			reviewForm.append(div.append(label, input));
-			reviewForm.find("input").attr("disabled", "disabled");
-		}
-
-		//Button for going back to the Questionare.
-		let backButton = $("<button class='go-back' type='button'></button>").text('BACK');
-		backButton.click(function () {
-			$(".review-page").hide();
-			$(".ques-ans-block").show();
-			$(".current-status").show();
-			display.displayQuestion(0);
-			$(".sureButton").show();
-		});
-
-		//Button for going to another page.
-		let button = $("<button class='all-done' type='button'></button>").text('SUBMIT');
-		button.click(function () {
-			window.location.href = "result.html";
-		});
-		reviewForm.append(backButton, button);
+		else
+			nButton.removeAttr("disabled");
 	}
 
 	/**
@@ -347,54 +217,115 @@ class Display {
 	 *
 	 */
 	displaySureButton () {
-		let button = $("<button class='sureButton'></button>").text("Yes. I am Sure");
+		let button = $(".sureButtonContainer > button");
 		button.click(function () {
 			if (uStorage.allDetails.length+1 == questions.length)
 				uStorage.insertDetail(createObj(questions.length-1, false), questions.length-1);
-			$(".ques-ans-block").hide();
-			uStorage.saveToStorage();
-			$(".current-status").hide();
-			$("header.mHeader").hide();
-			$(".sureButton").hide();
-			$(".review-page").show();
-			display.displayReviewForm(name);
-
+			$(".content-header").hide();
+			$(".main").hide();
+			$(".sureButtonContainer").hide();
+			$(".user-form-container").show();
 		});
-
-		//Checks whether the Sure Button is already generated or not.
-		if (!$(".sureButton").length)
-			$(".main").after(button);
 	}
 }
 
-var display = new Display();
-var uStorage = new UserStorage();
-var table = new Table();
-
-var questions = [];
-
 /**
- *Ajax call for getting the Questionare from the API.
+ *Stores all the answered questions.
  *
- *It fetch all Questions from the JSON and pushes it to the global
- *Question array.
+ *It also stores the allDetails array into local storage after the User
+ *is clicked on the "Yes i completed" button.
  *
- *After all questions are pushed, first question is displayed.
+ *@param allDetails- Array storing details of all User covered Questions.
  *
  */
-$.ajax({
-    type        : 'GET',
-    url         : 'http://10.2.0.104:3000/api/v4/calculators/dibly',
-    dataType    : 'json',
-    success	 : function (data) {
-	    	let listQn = data["calculator"]["questions"];
-	    	for (let qn of listQn) {
-	    		let q = new Question(qn);
-	    		questions.push(q);
-	    	}
-		display.displayQuestion(0);
-    }
-});
+class UserStorage {
+
+	constructor () { this.allDetails = []; }
+
+	/**
+	 *For inserting the details of User answered Questions.
+	 *If it is a previously answered question, then it just updates it.
+	 *
+	 *After insertion, it calls for status table updation.
+	 *
+	 *@arg obj- Object represents User covered Question.
+	 *@arg index- Index of the page that triggered the event.
+	 *
+	 */
+	insertDetail (obj, index) {
+		if (index+1 > this.allDetails.length) {
+			this.allDetails.push(obj);
+			table.createRow(obj, index);
+		}
+		else {
+			this.allDetails.splice(index, 1, obj);
+			table.updateRow(obj, index);
+		}
+	}
+
+	//Save array to local storage on "Yes i am completed" button.
+	saveToStorage (name, email) {
+		let innerObj = {};
+		innerObj["name"] = name;
+		innerObj["performance"] = this.allDetails;
+
+		let ls = localStorage.getItem("quizData");
+		ls == null ? ls = {} : ls = JSON.parse(ls);
+		ls[email] = innerObj;
+		localStorage.setItem("quizData", JSON.stringify(ls));
+	}
+
+	allDetails () { return allDetails; }
+
+	getUserAnswer (index) { return this.allDetails[index]["answer"]; }
+
+}
+
+class UserLogin {
+	constructor() {
+		this.name = "";
+		this.email = "";
+		this.namePattern = /[a-zA-Z]{3}([\s]?[a-zA-Z]+)*/;
+		this.emailPattern = /\w+@[a-z]{3,7}\.\w+/
+	}
+	validateName () {
+		let uName = $(".user-name").val();
+
+		if(uName.length >= 5) {
+			if (this.namePattern.test(uName)) {
+				$(".uname-msg").html('<i class="fas fa-check"></i>');
+				this.name = uName;
+				return true;
+			}
+			else
+				$(".uname-msg").text('should start with a letter and contain only alphabets.');
+		}
+		else
+			$(".uname-msg").text('should be atleast 5 characters long.');
+		return false;
+	}
+	validateEmail () {
+		let uEmail = $(".user-email").val();
+
+		if (this.emailPattern.test(uEmail)) {
+			$(".uemail-msg").html('<i class="fas fa-check"></i>');
+			this.email = uEmail;
+			return true;
+		}
+		else
+			$(".uemail-msg").text('should be in the form: example@qburst.com');
+		return false;
+	}
+	validateAll (event) {
+		event.preventDefault();
+		if (this.validateName() && this.validateEmail()) {
+			uStorage.saveToStorage(this.name, this.email);
+			window.location.href = "result.html?email=" + this.email;
+			return true;
+		}
+	}
+
+}
 
 /**
  *It returns an object that includes the question and answer details.
@@ -435,10 +366,46 @@ function createObj (index, isSubmitted) {
 //Function to showing how many question remaining.
 //If all covered, then indicate about the "Yes I am completed" button.
 function updateHeader() {
-	let header = $("header.mHeader");
-	if (questions.length-2 < uStorage.allDetails.length)
-		header.text("You have coverd all questions. Click on the 'Yes I am completed' button to finish");
+	if (questions.length-2 < uStorage.allDetails.length) {
+		$(".content-header").text("You have coverd all questions. Click on the 'Yes I am completed' button to finish");
+		setTimeout(function(){
+			$(".content-header").hide();
+			$(".main").css({"margin-top": "40px",});
+			$(".sureButtonContainer").show();
+		}, 1500);
+	}
 	else
-		header.text(questions.length-uStorage.allDetails.length-1 + " Questions remaining");
+		$(".rem-ques-nos").text(questions.length-uStorage.allDetails.length-1);
 
 }
+
+/**
+ *Ajax call for getting the Questionare from the API.
+ *
+ *It fetch all Questions from the JSON and pushes it to the global
+ *Question array.
+ *
+ *After all questions are pushed, first question is displayed.
+ *
+ */
+$.ajax({
+    type        : 'GET',
+    url         : 'http://10.2.0.104:3000/api/v4/calculators/dibly',
+    dataType    : 'json',
+    success	 : function (data) {
+	    	let listQn = data["calculator"]["questions"];
+	    	for (let qn of listQn) {
+	    		let q = new Question(qn);
+	    		questions.push(q);
+	    	}
+		display.displayQuestion(0);
+		$(".main").show();
+    }
+});
+
+var questions = [];
+
+var display = new Display();
+var uStorage = new UserStorage();
+var table = new Table();
+var user = new UserLogin();

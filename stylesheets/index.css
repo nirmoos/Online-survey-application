@@ -1,0 +1,159 @@
+/* Page header */
+.body-header {
+     text-align: center;
+     background-color: #00cccc;
+     color: white;
+     font-weight: bold;
+     padding: 30px;
+     margin: 10px 0 20px;
+}
+
+/* Remaining questions indicator */
+.content-header {
+     text-align: center;
+     margin: 0 0 20px;
+     font-size: 30px;
+}
+.rem-ques-nos, .question-no {
+     background-color: #00cccc;
+}
+.question-no {
+    margin-right: 7px;
+}
+
+/* Contains the Question form and Status table */
+.main {
+     display: flex;
+     margin: 20px;
+     color: #004d4d;
+     justify-content: space-around;
+}
+/* Question form */
+.content-block {
+     width: 40%;
+}
+.question-block {
+     border: 1px solid #00cccc;
+     padding: 10px;
+}
+hr.devider {
+     width: 80%;
+     background-color: #00cccc;
+     margin: 15px auto;
+}
+.answer-block-wrapper {
+     height: 125px;
+     text-align: center;
+     border-left: 1px solid #00cccc;
+     border-right: 1px solid #00cccc;
+     padding: 10px;
+}
+.answer-block {
+     display: inline-block;
+     text-align: left;
+     color: #00cccc;
+}
+.single-answer {
+     margin: 5px;
+     height: 35px;
+}
+.single-answer:hover {
+     cursor: pointer;
+}
+.button-block {
+     display: flex;
+     padding: 10px;
+     justify-content: space-around;
+     border: 1px solid #00cccc;
+}
+.button-block button, .sureButtonContainer button {
+     background-color: #00cccc;
+     color: white;
+     font-weight: bold;
+     border-radius: 5px;
+     padding: 5px 20px;
+}
+.button-block button:hover, footer button:hover {
+     cursor: pointer;
+}
+/* Status table */
+.status-block {
+     width: 30%;
+}
+.status-table {
+     border-radius: 9px;
+     border: 1px solid #00cccc;
+}
+.status-table thead {
+     color: white;
+     background-color: #00cccc;
+}
+.status-table thead th:nth-child(2) {
+    width: 220px;
+}
+.status-block tbody {
+     color: #00cccc;
+}
+.status-table i {
+     color: #00cccc;
+}
+
+/* Yes I am sure button */
+.sureButtonContainer {
+     display: none;
+     text-align: center;
+     margin-top: 100px;
+}
+
+/* Form for getting user-name and user-email */
+.user-form-container {
+     margin-top: 60px;
+     display: none;
+     text-align: center;
+}
+.user-form {
+     width: 30%;
+     margin: auto;
+     border: 1px solid #00cccc;
+     padding: 0px 40px 20px 0;
+}
+.user-name {
+     width: 100%;
+     margin: 50px 20px 5px;
+     border: 1px solid #00cccc;
+     padding: 5px;
+     color: #004d4d;
+     border-radius: 5px;
+}
+.user-email {
+     width: 100%;
+     margin: 26px 20px 5px;
+     border: 1px solid #00cccc;
+     padding: 5px;
+     color: #004d4d;
+     border-radius: 5px;
+}
+.user-name:focus, .user-email:focus {
+     border: 1px solid #004d4d;
+     color: #00cccc;
+}
+.uname-msg, .uemail-msg {
+     height: 24px;
+     text-align: center;
+     margin-left: 23px;
+     margin-bottom: 0px;
+     width: 100%;
+     color: red;
+}
+.user-form i {
+     color: #00cccc;
+}
+.user-form input[type=submit] {
+     background-color: #00cccc;
+     width: 100%;
+     color: white;
+     font-weight: bold;
+     padding: 5px 15px;
+     margin: 26px 0 30px 20px;
+     border-radius: 5px;
+}
