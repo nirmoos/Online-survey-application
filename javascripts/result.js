@@ -35,7 +35,7 @@ class AllData {
 
         let labels = [];
         let datasets = {
-            "label": "# of individual scores",
+            "label": "# Individual scores",
             "data": [],
             "backgroundColor": [],
             "borderColor": [],
@@ -59,19 +59,19 @@ class AllData {
     }
 
 	/**
-	 *It is especially for showing graph of score percentile.
+	 *It is especially for showing graph of score ranges.
 	 *
 	 *It returns an object in a form corresponds to 'value' of 'data' key for
 	 *the char.js constructor.
 	 *
 	 */
-	getScorePercentile() {
+	getScoreRanges() {
 		let backgroundColor = "rgba(0, 204, 204, 0.5)";
 		let borderColor = "rgba(0, 77, 77, 0.7)";
 
-		let labels = ["15-20", "10-14", "5-9", "0-4"];
+		let labels = ["0-4", "5-9", "10-14", "15-20"];
 		let datasets = {
-			"label": "# score percentile",
+			"label": "# Score ranges",
 			"data": [],
 			"backgroundColor": [
 				backgroundColor,
@@ -96,10 +96,10 @@ class AllData {
 			}
 			totalArray.push(total);
 		}
-		datasets["data"].push(totalArray.filter(isGreaterThan(15)).length);
-		datasets["data"].push(totalArray.filter(isGreaterThan(10)).length);
-		datasets["data"].push(totalArray.filter(isGreaterThan(5)).length);
 		datasets["data"].push(totalArray.filter(isGreaterThan(0)).length);
+		datasets["data"].push(totalArray.filter(isGreaterThan(5)).length);
+		datasets["data"].push(totalArray.filter(isGreaterThan(10)).length);
+		datasets["data"].push(totalArray.filter(isGreaterThan(15)).length);
 
 		function isGreaterThan(limit) {
 			return function (element) {
@@ -114,9 +114,10 @@ class AllData {
 	}
 
 	/**
+	 *It is especially for showing graph of not answered question rate.
 	 *
-	 *
-	 *
+	 *It returns an object in a form corresponds to 'value' of 'data' key for
+	 *the char.js constructor.
 	 *
 	 */
 	getNotAnsweredRate() {
@@ -205,7 +206,7 @@ var myChart1 = new Chart(ctx1, {
 var ctx2 = document.getElementById("myChart2").getContext('2d');
 var myChart2 = new Chart(ctx2, {
     type: 'bar',
-    data: alldata.getScorePercentile(),
+    data: alldata.getScoreRanges(),
 });
 
 //Creation of graph of Not answered question rate.
