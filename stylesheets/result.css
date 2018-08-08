@@ -42,10 +42,11 @@
 /* Canvas wrapper */
 .canvas-wrapper {
     display: none;
+    flex-wrap: wrap;
     justify-content: space-around;
 }
 
-#myChart1, #myChart2 {
-    max-width: 500px;
-    max-height: 500px;
+#myChart1, #myChart2, #myChart3 {
+    max-width: 600px;
+    max-height: 600px;
 }

@@ -112,6 +112,48 @@ class AllData {
 			"datasets": [datasets],
 		}
 	}
+
+	/**
+	 *
+	 *
+	 *
+	 *
+	 */
+	getNotAnsweredRate() {
+		let backgroundColor = "rgba(0, 204, 204, 0.5)";
+		let borderColor = "rgba(0, 77, 77, 0.7)";
+
+		let labels = ["Q1", "Q2", "Q3", "Q4"];
+		let datasets = {
+			"label": "# Not answered question rate",
+			"data": [0, 0, 0, 0],
+			"backgroundColor": [
+				backgroundColor,
+				backgroundColor,
+				backgroundColor,
+				backgroundColor
+			],
+			"borderColor": [
+				borderColor,
+				borderColor,
+				borderColor,
+				borderColor
+			],
+			"borderWidth": 1
+		}
+
+		for (let x in this.allData) {
+			let i = 0;
+			for (let qn of this.allData[x]["performance"]) {
+				datasets["data"][i++] += qn["answer"] == "Not answered" ? 1 : 0;
+			}
+		}
+
+		return {
+			"labels": labels,
+			"datasets": [datasets],
+		}
+	}
 }
 
 /**
@@ -166,10 +208,17 @@ var myChart2 = new Chart(ctx2, {
     data: alldata.getScorePercentile(),
 });
 
+//Creation of graph of Not answered question rate.
+var ctx3 = document.getElementById("myChart3").getContext('2d');
+var myChart3 = new Chart(ctx3, {
+    type: 'bar',
+    data: alldata.getNotAnsweredRate(),
+});
+
 //Event listener for button.
 //The graphs are actually hidden until the button click.
 $(".button-for-canvas").click(function () {
-	$(".button-container").hide();
-	$(".result-block").slideUp();
+	$(".button-container").slideUp(1200);
+	$(".result-block").slideUp(1000);
 	$(".canvas-wrapper").css("display", "flex");
 });
