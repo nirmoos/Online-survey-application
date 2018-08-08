@@ -24,14 +24,13 @@
 
 /* Contains the Question form and Status table */
 .main {
-     display: flex;
+     display: none;
      margin: 20px;
      color: #004d4d;
      justify-content: space-around;
 }
 /* Question form */
 .content-block {
-     display: none;
      width: 40%;
 }
 .question-block {
@@ -80,7 +79,6 @@ hr.devider {
 }
 /* Status table */
 .status-block {
-     display: none;
      width: 30%;
 }
 .status-table {
@@ -104,13 +102,16 @@ hr.devider {
 /* Yes I am sure button */
 .sureButtonContainer {
      display: none;
-     text-align: center;
-     margin-top: 50px;
+     width: 100%;
+     position: absolute;
+     bottom: 50px;
 }
-
+.sureButtonContainer button {
+    margin-left: 43%;
+}
 /* Form for getting user-name and user-email */
 .user-form-container {
-     margin-top: 60px;
+     margin-top: 30px;
      display: none;
      text-align: center;
 }

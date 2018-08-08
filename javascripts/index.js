@@ -100,10 +100,15 @@ class Table {
 
 		td = $("<td></td>").append("<i class='far fa-edit'></i>");
 		td.click(function () {
-			display.displayQuestion(index);
+			$(".content-header").slideUp(600);
+			$(".main").slideUp();
+			setTimeout(function () {
+				display.displayQuestion(index);
+			}, 400);
 		})
-
-		$(".status-table tbody").append(tr.append(td));
+		setTimeout(function () {
+			$(".status-table tbody").append(tr.append(td));
+		}, 400);
 	}
 
 	/**
@@ -113,8 +118,10 @@ class Table {
 	 */
 	updateRow (obj, index) {
 		let td = $(".status-table tr:nth-child("+(index+1)+") td:nth-child(2)");	//Finding the position of the Answer in status table.
-		td.text(obj["answer"]);
-		this.changeAnswerColor(obj["answer"], td);
+		setTimeout(function () {
+			td.text(obj["answer"]);
+			table.changeAnswerColor(obj["answer"], td);
+		}, 400);
 	}
 
 	/**
@@ -181,7 +188,11 @@ class Display {
 		pButton.click(function () {
 			if (uStorage.allDetails.length+1 == questions.length)
 				uStorage.insertDetail(createObj(no, false), no);
-			display.displayQuestion(no-1);
+			$(".content-header").slideUp(600);
+			$(".main").slideUp();
+			setTimeout(function () {
+				display.displayQuestion(no-1);
+			}, 400);
 		});
 		no == 0 ? pButton.attr("disabled", "disabled") : pButton.removeAttr("disabled");					//The button is disabled for the first page.
 
@@ -189,16 +200,25 @@ class Display {
 		let sButton = $(".submit-button").off("click");
 		sButton.click(function () {
 			uStorage.insertDetail(createObj(no, true), no);
-			display.displayQuestion(no+1 > questions.length ? no: no+1);
-			updateHeader();
+			$(".content-header").slideUp(600);
+			$(".main").slideUp();
+			setTimeout(function () {
+				display.displayQuestion(no+1 == questions.length ? no: no+1);
+				updateHeader();
+			}, 400);
+
 		});
 
 		//Creation of the Next button.
 		let nButton = $(".next-button").off("click");
 		nButton.click(function () {
 			uStorage.insertDetail(createObj(no, false), no);
-			display.displayQuestion(no+1);
-			updateHeader();
+			$(".content-header").slideUp(600);
+			$(".main").slideUp();
+			setTimeout(function () {
+				display.displayQuestion(no+1);
+				updateHeader();
+			}, 400);
 		});
 
 		if (no+1 == questions.length) {
@@ -207,6 +227,10 @@ class Display {
 		}
 		else
 			nButton.removeAttr("disabled");
+
+		$(".content-header").slideDown(600);
+		$(".main").css("display", "flex").hide().slideDown();
+		$(".quiz-timer").slideDown();
 	}
 
 	/**
@@ -222,11 +246,11 @@ class Display {
 			clearTimeout(myTimer);
 			if (uStorage.allDetails.length+1 == questions.length)
 				uStorage.insertDetail(createObj(questions.length-1, false), questions.length-1);
-			$(".content-header").hide();
-			$(".main").hide();
-			$(".sureButtonContainer").hide();
-			$(".quiz-timer").hide();
-			$(".user-form-container").show();
+			$(".sureButtonContainer").slideUp();
+			$(".main").slideUp(1200);
+			$(".quiz-timer").slideUp();
+			clearFormFields();
+			$(".user-form-container").slideDown(2000);
 		});
 	}
 }
@@ -385,13 +409,18 @@ function createObj (index, isSubmitted) {
 //If all covered, then indicate about the "Yes I am completed" button.
 function updateHeader() {
 	if (questions.length-2 < uStorage.allDetails.length) {
-		$(".content-header").hide();
-		$(".main").css({"margin-top": "85px",});
+		$(".content-header").css("visibility", "hidden");
 		$(".sureButtonContainer").show();
 	}
 	else
 		$(".rem-ques-nos").text(questions.length-uStorage.allDetails.length-1);
 
+}
+
+//This function clears all the fields in the User form container.
+function clearFormFields() {
+	$(".user-name").val("");
+	$(".user-email").val("");
 }
 
 /**
@@ -415,10 +444,6 @@ $.ajax({
 	    	}
 		display.displayQuestion(0);
 		updateHeader();
-		$(".content-header").slideDown(1000);
-		$(".content-block").slideDown();
-		$(".status-block").slideDown();
-		$(".quiz-timer").slideDown();
     }
 });
 
@@ -453,12 +478,15 @@ var updateTimer = function (i=0, j=0, m=2, n=9) {
 				display.displayQuestion(x);
 				uStorage.insertDetail(createObj(x, false), x);
 			}
-			$(".quiz-timer").hide();
-			$(".content-header").hide();
-			$(".main").hide();
-			$(".sureButtonContainer").hide();
-			$("#timesupModal").modal('show');
-			$(".user-form-container").show();
+			$(".content-header").slideUp(800);
+			$(".sureButtonContainer").slideUp();
+			$(".main").slideUp(600);
+			$(".quiz-timer").slideUp();
+			setTimeout(function() {
+				$("#timesupModal").modal('show');
+				clearFormFields();
+				$(".user-form-container").show();
+			}, 1400);
 
             return;
         }
@@ -467,3 +495,8 @@ var updateTimer = function (i=0, j=0, m=2, n=9) {
 }
 
 updateTimer();
+
+//Modal button event listener.
+$(".myModalButton").click(function() {
+	$(".user-form-container").hide().slideDown(1000);
+});
