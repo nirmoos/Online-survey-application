@@ -432,20 +432,29 @@ function clearFormFields() {
  *After all questions are pushed, first question is displayed.
  *
  */
-$.ajax({
-    type        : 'GET',
-    url         : 'http://10.2.0.104:3000/api/v4/calculators/dibly',
-    dataType    : 'json',
-    success	 : function (data) {
-	    	let listQn = data["calculator"]["questions"];
-	    	for (let qn of listQn) {
-	    		let q = new Question(qn);
-	    		questions.push(q);
-	    	}
-		display.displayQuestion(0);
-		updateHeader();
-    }
-});
+// $.ajax({
+//     type        : 'GET',
+//     url         : 'http://10.2.0.104:3000/api/v4/calculators/dibly',
+//     dataType    : 'json',
+//     success	 : function (data) {
+// 	    	let listQn = data["calculator"]["questions"];
+// 	    	for (let qn of listQn) {
+// 	    		let q = new Question(qn);
+// 	    		questions.push(q);
+// 	    	}
+// 		display.displayQuestion(0);
+// 		updateHeader();
+//     }
+// });
+function ajaxSimulation (data) {
+	let listQn = data["calculator"]["questions"];
+	for (let qn of listQn) {
+		let q = new Question(qn);
+		questions.push(q);
+	}
+	display.displayQuestion(0);
+	updateHeader();
+}
 
 //This vaiable is a container for all question objects.
 var questions = [];
@@ -500,3 +509,150 @@ updateTimer();
 $(".myModalButton").click(function() {
 	$(".user-form-container").hide().slideDown(1000);
 });
+
+//The 'data' object were actually provided by an API call. But for the demonstration
+//purposes, we just included it in the file as an object. The actual implementation
+//of the following codes should be done in the ajax call.
+let data = {
+  "success": true,
+  "message": "Fetched question details.",
+  "calculator": {
+    "questions": [
+      {
+        "id": 950,
+        "title": "Have you profiled your ideal customer?",
+        "answers": [
+          {
+            "id": 3962,
+            "title": "Yes",
+            "score": 5,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": true,
+            "image": ""
+          },
+          {
+            "id": 3963,
+            "title": "No",
+            "score": 0,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": false,
+            "image": ""
+          },
+          {
+            "id": 3964,
+            "title": "Not sure",
+            "score": 2,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": false,
+            "image": ""
+          }
+        ]
+      },
+      {
+        "id": 951,
+        "title": "Is your sales team well-equipped to sell your product/service?",
+        "answers": [
+          {
+            "id": 3965,
+            "title": "Yes",
+            "score": 5,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": true,
+            "image": ""
+          },
+          {
+            "id": 3966,
+            "title": "Somewhat equipped",
+            "score": 2,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": false,
+            "image": ""
+          },
+          {
+            "id": 3967,
+            "title": "No",
+            "score": 0,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": false,
+            "image": ""
+          }
+        ]
+      },
+      {
+        "id": 952,
+        "title": "Is your sales process customized on how\n your buyers buy?\n",
+        "answers": [
+          {
+            "id": 3968,
+            "title": "Yes",
+            "score": 5,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": true,
+            "image": ""
+          },
+          {
+            "id": 3969,
+            "title": "Somewhat customized",
+            "score": 2,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": false,
+            "image": ""
+          },
+          {
+            "id": 3970,
+            "title": "No",
+            "score": 0,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": false,
+            "image": ""
+          }
+        ]
+      },
+      {
+        "id": 953,
+        "title": "Do your sales reps know what is expected of them and can execute \nagainst the strategy effectively?",
+        "answers": [
+          {
+            "id": 3971,
+            "title": "Yes",
+            "score": 5,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": true,
+            "image": ""
+          },
+          {
+            "id": 3972,
+            "title": "No\n",
+            "score": 0,
+            "recommendation": null,
+            "icon": null,
+            "icon_color": null,
+            "correct": false,
+            "image": ""
+          }
+        ]
+      }
+    ]
+  }
+};
+ajaxSimulation (data);
